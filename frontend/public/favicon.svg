@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Open Source Contribution Finder">
+  <rect width="32" height="32" rx="7" fill="#2563eb" />
+  <path
+    d="M16 6.5l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L16 21.35l-5.8 3.05 1.1-6.45-4.7-4.6 6.5-.95z"
+    fill="#fff"
+  />
+</svg>
