@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components -- the saved-items context
-   is colocated with its provider on purpose (PLAN.md §3 lists SavedProvider.jsx). */
+   is colocated with its provider on purpose. */
 import {
   createContext,
   useCallback,
@@ -29,7 +29,7 @@ import {
 } from "../lib/savedStorage";
 
 /**
- * Saved items live here and only here (PLAN.md §11): React Context on top of
+ * Saved items live here and only here: React Context on top of
  * `localStorage`. Components never touch `localStorage` directly.
  */
 export const SavedContext = createContext(null);
@@ -49,7 +49,7 @@ export function SavedProvider({ children }) {
     savedRef.current = saved;
   }, [saved]);
 
-  // Persist on every change (PLAN.md §11).
+  // Persist on every change.
   useEffect(() => {
     if (!storageOk) return;
     if (!persistSaves(saved)) setNotice(QUOTA_NOTICE);

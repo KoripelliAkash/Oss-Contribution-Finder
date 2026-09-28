@@ -13,7 +13,7 @@ const REPO_SORTS = [
 ];
 
 /**
- * Filter controls (PLAN.md §12 Phase 3). The language list is static and comes
+ * Filter controls. The language list is static and comes
  * from `/api/languages`; filters are sent to the backend, which builds the
  * GitHub query itself.
  */
@@ -33,7 +33,7 @@ export default function FilterBar({ mode, filters, onChange, languages = [], dis
     >
       {mode === "repos" ? (
         <>
-          <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+          <label className="flex flex-col gap-1 text-sm font-medium text-fg-muted">
             Topic
             <input
               type="search"
@@ -45,7 +45,7 @@ export default function FilterBar({ mode, filters, onChange, languages = [], dis
             />
           </label>
 
-          <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+          <label className="flex flex-col gap-1 text-sm font-medium text-fg-muted">
             Minimum stars
             <input
               type="number"
@@ -59,7 +59,7 @@ export default function FilterBar({ mode, filters, onChange, languages = [], dis
           </label>
         </>
       ) : (
-        <fieldset className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <fieldset className="flex flex-col gap-1 text-sm font-medium text-fg-muted">
           <legend>Label</legend>
           <div className="flex flex-wrap gap-2">
             {ISSUE_LABELS.map((label) => {
@@ -71,7 +71,7 @@ export default function FilterBar({ mode, filters, onChange, languages = [], dis
                   disabled={disabled}
                   aria-pressed={active}
                   onClick={() => update({ label })}
-                  className={`btn ${active ? "border-brand-500 bg-brand-50 text-brand-700" : ""}`}
+                  className={`btn ${active ? "border-brand-500 bg-brand-50 text-accent" : ""}`}
                 >
                   {label}
                 </button>
@@ -81,7 +81,7 @@ export default function FilterBar({ mode, filters, onChange, languages = [], dis
         </fieldset>
       )}
 
-      <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+      <label className="flex flex-col gap-1 text-sm font-medium text-fg-muted">
         Language
         <select
           className="input"
@@ -98,7 +98,7 @@ export default function FilterBar({ mode, filters, onChange, languages = [], dis
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+      <label className="flex flex-col gap-1 text-sm font-medium text-fg-muted">
         Sort by
         <select
           className="input"

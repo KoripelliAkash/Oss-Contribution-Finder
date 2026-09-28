@@ -1,4 +1,4 @@
-"""``GET /api/repos`` and ``GET /api/repo/{owner}/{repo}`` (PLAN.md §6).
+"""``GET /api/repos`` and ``GET /api/repo/{owner}/{repo}``.
 
 NOTE: no ``from __future__ import annotations`` here — see ``issues.py``.
 """

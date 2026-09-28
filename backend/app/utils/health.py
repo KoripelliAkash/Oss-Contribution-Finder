@@ -1,4 +1,4 @@
-"""Repo "health score" logic (PLAN.md §3, §12 Phase 6).
+"""Repo "health score" logic.
 
 Returns a plain dict so ``models.py`` can hydrate ``RepoHealth`` without
 importing the models module back (which would be circular).
@@ -36,7 +36,9 @@ def parse_github_datetime(value: str | None) -> dt.datetime | None:
     return parsed
 
 
-def repo_health(payload: dict[str, Any], *, now: dt.datetime | None = None) -> dict[str, Any]:
+def repo_health(
+    payload: dict[str, Any], *, now: dt.datetime | None = None
+) -> dict[str, Any]:
     """Score how welcoming/active a repository looks for a new contributor."""
     now = now or dt.datetime.now(dt.UTC)
     pushed = parse_github_datetime(payload.get("pushed_at")) or parse_github_datetime(

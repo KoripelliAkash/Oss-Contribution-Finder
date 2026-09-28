@@ -1,4 +1,4 @@
-"""GitHub REST + Search wrapper (PLAN.md §10).
+"""GitHub REST + Search wrapper.
 
 All outbound GitHub traffic goes through this module: nothing else may create
 an ``httpx`` client. Each call is logged with its query, status and cache
@@ -44,7 +44,7 @@ class Fetched(NamedTuple):
 
 
 class SearchBudget:
-    """Rolling per-minute cap on outbound GitHub *search* calls (PLAN.md §10)."""
+    """Rolling per-minute cap on outbound GitHub *search* calls."""
 
     def __init__(self, per_minute: int, window_seconds: float = 60.0) -> None:
         self.per_minute = max(0, per_minute)
@@ -83,7 +83,7 @@ _client: httpx.AsyncClient | None = None
 
 
 def _headers() -> dict[str, str]:
-    """Required GitHub headers (PLAN.md §7). The token never leaves the backend."""
+    """Required GitHub headers. The token never leaves the backend."""
     headers = {
         "Accept": ACCEPT_HEADER,
         "User-Agent": _settings.github_user_agent,
@@ -114,7 +114,7 @@ async def close_client() -> None:
 
 
 def _map_error(response: httpx.Response) -> GitHubError:
-    """Translate a GitHub error response (PLAN.md §10 error mapping table)."""
+    """Translate a GitHub error response."""
     status = response.status_code
     message = ""
     try:
@@ -127,19 +127,27 @@ def _map_error(response: httpx.Response) -> GitHubError:
     remaining = response.headers.get("x-ratelimit-remaining")
     if status in (403, 429):
         if status == 429 or "rate limit" in message.lower() or remaining == "0":
-            return GitHubError(429, "rate_limited", "GitHub rate limit hit. Try again in 60s.")
+            return GitHubError(
+                429, "rate_limited", "GitHub rate limit hit. Try again in 60s."
+            )
         return GitHubError(502, "github_error", "GitHub refused the request (403).")
     if status == 404:
-        return GitHubError(404, "not_found", "GitHub could not find that repository or issue.")
+        return GitHubError(
+            404, "not_found", "GitHub could not find that repository or issue."
+        )
     if status == 422:
         return GitHubError(400, "invalid_query", "GitHub rejected the search query.")
     if status == 401:
-        return GitHubError(502, "github_error", "GitHub rejected the backend credentials.")
+        return GitHubError(
+            502, "github_error", "GitHub rejected the backend credentials."
+        )
     if status >= 500:
         return GitHubError(
             502, "github_error", "GitHub returned a server error. Try again shortly."
         )
-    return GitHubError(502, "github_error", f"Unexpected response from GitHub ({status}).")
+    return GitHubError(
+        502, "github_error", f"Unexpected response from GitHub ({status})."
+    )
 
 
 async def _request(
@@ -185,10 +193,14 @@ async def _request(
     try:
         payload = response.json()
     except ValueError as exc:
-        raise GitHubError(502, "github_error", "GitHub returned a malformed response.") from exc
+        raise GitHubError(
+            502, "github_error", "GitHub returned a malformed response."
+        ) from exc
 
     if not isinstance(payload, dict):
-        raise GitHubError(502, "github_error", "GitHub returned an unexpected response shape.")
+        raise GitHubError(
+            502, "github_error", "GitHub returned an unexpected response shape."
+        )
 
     cache.set(key, payload)
     return Fetched(payload, False)
@@ -203,7 +215,13 @@ async def search_issues(
     per_page: int = 30,
 ) -> Fetched:
     """``GET /search/issues`` (counts against the outbound search budget)."""
-    params = {"q": query, "sort": sort, "order": order, "page": page, "per_page": per_page}
+    params = {
+        "q": query,
+        "sort": sort,
+        "order": order,
+        "page": page,
+        "per_page": per_page,
+    }
     return await _request(
         "/search/issues",
         params,
@@ -221,7 +239,13 @@ async def search_repositories(
     per_page: int = 30,
 ) -> Fetched:
     """``GET /search/repositories`` (counts against the outbound search budget)."""
-    params = {"q": query, "sort": sort, "order": order, "page": page, "per_page": per_page}
+    params = {
+        "q": query,
+        "sort": sort,
+        "order": order,
+        "page": page,
+        "per_page": per_page,
+    }
     return await _request(
         "/search/repositories",
         params,

@@ -1,4 +1,4 @@
-"""Pydantic response models (PLAN.md §6) plus GitHub-payload mapping helpers.
+"""Pydantic response models plus GitHub-payload mapping helpers.
 
 Routes only ever return these models — never raw dicts.
 """
@@ -13,7 +13,7 @@ from .utils.health import repo_health
 
 
 class ErrorResponse(BaseModel):
-    """Consistent error shape for every failure (PLAN.md §10)."""
+    """Consistent error shape for every failure."""
 
     error: str
     message: str

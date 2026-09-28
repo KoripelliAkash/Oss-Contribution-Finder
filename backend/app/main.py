@@ -35,13 +35,18 @@ logger = logging.getLogger(__name__)
 
 
 def _error_response(status_code: int, error: str, message: str) -> JSONResponse:
-    """Every failure uses the same JSON shape (PLAN.md §10)."""
-    return JSONResponse(status_code=status_code, content={"error": error, "message": message})
+    """Every failure uses the same JSON shape."""
+    return JSONResponse(
+        status_code=status_code, content={"error": error, "message": message}
+    )
 
 
 async def _prewarm() -> None:
-    """Warm the cache for the default query plus a few top languages (PLAN.md §8)."""
-    languages: list[str | None] = [None, *meta.LANGUAGES[: max(0, settings.prewarm_language_count)]]
+    """Warm the cache for the default query plus a few top languages."""
+    languages: list[str | None] = [
+        None,
+        *meta.LANGUAGES[: max(0, settings.prewarm_language_count)],
+    ]
     for language in languages:
         try:
             query = build_issue_query(DEFAULT_LABEL, language)
@@ -88,20 +93,29 @@ app.add_middleware(
 @app.exception_handler(GitHubError)
 async def github_error_handler(request: Request, exc: GitHubError) -> JSONResponse:
     logger.warning(
-        "github error path=%s error=%s message=%s", request.url.path, exc.error, exc.message
+        "github error path=%s error=%s message=%s",
+        request.url.path,
+        exc.error,
+        exc.message,
     )
     return _error_response(exc.status_code, exc.error, exc.message)
 
 
 @app.exception_handler(QueryBuildError)
-async def query_build_error_handler(request: Request, exc: QueryBuildError) -> JSONResponse:
+async def query_build_error_handler(
+    request: Request, exc: QueryBuildError
+) -> JSONResponse:
     logger.info("invalid query path=%s reason=%s", request.url.path, exc)
     return _error_response(400, "invalid_query", str(exc))
 
 
 @app.exception_handler(RequestValidationError)
-async def validation_error_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
-    return _error_response(400, "invalid_query", "One or more query parameters are invalid.")
+async def validation_error_handler(
+    request: Request, exc: RequestValidationError
+) -> JSONResponse:
+    return _error_response(
+        400, "invalid_query", "One or more query parameters are invalid."
+    )
 
 
 @app.exception_handler(RateLimitExceeded)

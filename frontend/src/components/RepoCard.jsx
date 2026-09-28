@@ -16,7 +16,7 @@ export default function RepoCard({ repo }) {
             href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-brand-600"
+            className="hover:text-accent"
           >
             {repo.full_name}
           </a>
@@ -27,8 +27,8 @@ export default function RepoCard({ repo }) {
         </div>
       </header>
 
-      <p className="text-sm text-slate-600">
-        {repo.description || <span className="italic text-slate-400">No description yet.</span>}
+      <p className="text-sm text-fg-muted">
+        {repo.description || <span className="italic text-fg-subtle">No description yet.</span>}
       </p>
 
       {topics.length > 0 ? (
@@ -41,7 +41,7 @@ export default function RepoCard({ repo }) {
         </ul>
       ) : null}
 
-      <footer className="mt-auto flex flex-wrap items-center gap-3 text-xs text-slate-500">
+      <footer className="mt-auto flex flex-wrap items-center gap-3 text-xs text-fg-muted">
         <span>{formatNumber(repo.stars)} stars</span>
         <span>{formatNumber(repo.forks)} forks</span>
         <span>{formatNumber(repo.open_issues)} open issues</span>
@@ -50,10 +50,7 @@ export default function RepoCard({ repo }) {
       </footer>
 
       {owner && name ? (
-        <Link
-          to={`/project/${owner}/${name}`}
-          className="text-sm font-medium text-brand-600 hover:text-brand-700"
-        >
+        <Link to={`/project/${owner}/${name}`} className="text-sm font-medium">
           View project details →
         </Link>
       ) : null}
