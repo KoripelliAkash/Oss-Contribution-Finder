@@ -45,8 +45,8 @@ export default function ProjectDetail() {
     <section className="flex flex-col gap-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">{details.full_name}</h1>
-          <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+          <h1 className="text-3xl leading-tight">{details.full_name}</h1>
+          <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-fg-muted">
             <HealthBadge health={details.health} />
             {details.language ? <span className="chip">{details.language}</span> : null}
           </p>
@@ -67,26 +67,28 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      <p className="text-sm text-slate-700">
-        {details.description || <span className="italic text-slate-400">No description yet.</span>}
+      <p className="max-w-3xl text-sm text-fg-muted">
+        {details.description || <span className="italic text-fg-subtle">No description yet.</span>}
       </p>
 
-      <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <div className="card">
-          <dt className="text-xs uppercase tracking-wide text-slate-500">Stars</dt>
-          <dd className="text-lg font-semibold">{formatNumber(details.stars)}</dd>
+      <dl className="card flex flex-wrap items-center gap-x-8 gap-y-3">
+        <div className="flex items-baseline gap-1.5">
+          <dt className="order-2 text-sm text-fg-muted">stars</dt>
+          <dd className="order-1 text-xl font-semibold text-accent">{formatNumber(details.stars)}</dd>
         </div>
-        <div className="card">
-          <dt className="text-xs uppercase tracking-wide text-slate-500">Forks</dt>
-          <dd className="text-lg font-semibold">{formatNumber(details.forks)}</dd>
+        <div className="flex items-baseline gap-1.5">
+          <dt className="order-2 text-sm text-fg-muted">forks</dt>
+          <dd className="order-1 text-xl font-semibold text-accent">{formatNumber(details.forks)}</dd>
         </div>
-        <div className="card">
-          <dt className="text-xs uppercase tracking-wide text-slate-500">Open issues</dt>
-          <dd className="text-lg font-semibold">{formatNumber(details.open_issues)}</dd>
+        <div className="flex items-baseline gap-1.5">
+          <dt className="order-2 text-sm text-fg-muted">open issues</dt>
+          <dd className="order-1 text-xl font-semibold text-accent">
+            {formatNumber(details.open_issues)}
+          </dd>
         </div>
-        <div className="card">
-          <dt className="text-xs uppercase tracking-wide text-slate-500">Last push</dt>
-          <dd className="text-lg font-semibold">
+        <div className="flex items-baseline gap-1.5">
+          <dt className="order-2 text-sm text-fg-muted">last push</dt>
+          <dd className="order-1 text-xl font-semibold">
             {formatRelative(details.pushed_at ?? details.updated_at)}
           </dd>
         </div>
@@ -94,7 +96,7 @@ export default function ProjectDetail() {
 
       {topics.length > 0 ? (
         <div>
-          <h2 className="text-sm font-semibold text-slate-800">Topics</h2>
+          <h2 className="text-sm font-semibold text-fg">Topics</h2>
           <ul className="mt-2 flex flex-wrap gap-1" aria-label="Repository topics">
             {topics.map((topic) => (
               <li key={topic} className="chip">
@@ -106,8 +108,8 @@ export default function ProjectDetail() {
       ) : null}
 
       {details.health?.reasons?.length ? (
-        <div className="card text-sm text-slate-600">
-          <h2 className="text-sm font-semibold text-slate-800">Why this score?</h2>
+        <div className="card text-sm text-fg-muted">
+          <h2 className="text-sm font-semibold text-fg">Why this score?</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5">
             {details.health.reasons.map((reason) => (
               <li key={reason}>{reason}</li>
@@ -116,7 +118,7 @@ export default function ProjectDetail() {
         </div>
       ) : null}
 
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-fg-muted">
         {details.cached ? "Served from the backend cache." : "Fetched from GitHub just now."}
       </p>
     </section>

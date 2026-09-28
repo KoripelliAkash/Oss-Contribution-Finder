@@ -1,4 +1,4 @@
-"""``GET /api/languages`` and ``GET /api/health`` (PLAN.md §6, §8).
+"""``GET /api/languages`` and ``GET /api/health``.
 
 The language list is a hardcoded static list — it never calls GitHub and is the
 one thing we deliberately do *not* cache (v2 clarification).
@@ -60,7 +60,9 @@ LANGUAGES: list[str] = [
 ]
 
 
-@router.get("/languages", response_model=LanguagesResponse, summary="Static language list")
+@router.get(
+    "/languages", response_model=LanguagesResponse, summary="Static language list"
+)
 @limiter.limit(DEFAULT_LIMIT)
 async def list_languages(request: Request) -> LanguagesResponse:
     """Feed the frontend filter dropdown without spending a GitHub call."""

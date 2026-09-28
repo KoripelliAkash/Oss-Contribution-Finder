@@ -1,4 +1,4 @@
-"""Environment-driven settings (PLAN.md §5).
+"""Environment-driven settings.
 
 Every value can be overridden through the environment or ``backend/.env``.
 The GitHub token lives *only* here — it is never sent to the frontend.
@@ -25,13 +25,13 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # --- GitHub (PLAN.md §7) ---
+    # --- GitHub ---
     github_token: str = ""
     github_api_base_url: str = "https://api.github.com"
     github_user_agent: str = "oss-contribution-finder"
     github_timeout_seconds: float = 10.0
 
-    # --- Cache (PLAN.md §8) ---
+    # --- Cache ---
     cache_ttl_seconds: int = 600
     cache_max_size: int = 500
     # Pre-warm the cache on startup so the first visitors are not waiting.
@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     # --- CORS ---
     cors_origins: str = DEFAULT_CORS_ORIGINS
 
-    # --- Rate limiting (PLAN.md §10, v2 split) ---
+    # --- Rate limiting (v2 split by route class) ---
     rate_limit_search_per_minute: int = 25
     rate_limit_default_per_minute: int = 60
     github_upstream_budget_per_min: int = 25
@@ -53,7 +53,9 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         """``CORS_ORIGINS`` is a comma-separated string in ``.env``."""
-        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+        return [
+            origin.strip() for origin in self.cors_origins.split(",") if origin.strip()
+        ]
 
 
 @lru_cache(maxsize=1)

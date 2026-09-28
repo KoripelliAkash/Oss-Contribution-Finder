@@ -1,8 +1,7 @@
-"""slowapi rate limiting (PLAN.md §10).
+"""slowapi rate limiting.
 
-NOTE: ``PLAN.md`` §3 does not list this module explicitly. The limiter lives
-here instead of in ``main.py`` so that routers can import it without creating a
-circular import (``main`` -> ``routers`` -> ``main``).
+NOTE: The limiter lives here instead of in ``main.py`` so that routers can
+import it without creating a circular import (``main`` -> ``routers`` -> ``main``).
 
 Limits:
 * search routes (``/api/issues``, ``/api/repos``): ``RATE_LIMIT_SEARCH_PER_MINUTE`` (<= 25/min)

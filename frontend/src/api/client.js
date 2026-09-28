@@ -1,5 +1,5 @@
 /**
- * Thin `fetch` wrappers around our backend (PLAN.md §9).
+ * Thin `fetch` wrappers around our backend.
  *
  * The frontend never talks to GitHub directly and never sees the GitHub
  * token — only this API base URL.
@@ -71,7 +71,7 @@ export function fetchIssues(filters = {}, page = 1, perPage = 30) {
   });
 }
 
-/** All open issues with a given label inside one repository (PLAN.md §6). */
+/** All open issues with a given label inside one repository. */
 export function fetchRepoIssues(owner, repo, filters = {}, page = 1, perPage = 30) {
   const { label = "good first issue", language, sort = "updated", order = "desc" } = filters;
   return request("/api/issues", {

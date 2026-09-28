@@ -20,7 +20,7 @@ const DEFAULT_FILTERS = {
   minStars: 0,
 };
 
-/** Group a page of issues by repository (PLAN.md §6, Option A). */
+/** Group a page of issues by repository (one API call, grouped client-side). */
 function groupByRepo(items) {
   const byRepo = new Map();
   items.forEach((issue) => {
@@ -70,34 +70,36 @@ export default function Browse() {
 
   return (
     <section className="flex flex-col gap-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Find something to contribute to</h1>
-          <p className="text-sm text-slate-600">
-            {mode === "issues"
-              ? "Open issues grouped by project — open a project to see all of its issues in one place."
-              : "Actively maintained repositories that welcome contributions."}
-          </p>
-        </div>
+      <div>
+        <h1 className="text-3xl leading-tight">Find something to contribute to</h1>
+        <p className="mt-1 text-sm text-fg-muted">
+          {mode === "issues"
+            ? "Open issues grouped by project — open a project to see all of its issues in one place."
+            : "Actively maintained repositories that welcome contributions."}
+        </p>
+      </div>
 
-        <div className="flex gap-2" role="group" aria-label="Result type">
-          <button
-            type="button"
-            className={`btn ${mode === "issues" ? "border-brand-500 bg-brand-50 text-brand-700" : ""}`}
-            aria-pressed={mode === "issues"}
-            onClick={() => switchMode("issues")}
-          >
-            Issues
-          </button>
-          <button
-            type="button"
-            className={`btn ${mode === "repos" ? "border-brand-500 bg-brand-50 text-brand-700" : ""}`}
-            aria-pressed={mode === "repos"}
-            onClick={() => switchMode("repos")}
-          >
-            Repositories
-          </button>
-        </div>
+      <div
+        className="-mt-3 flex items-end gap-1 border-b border-border"
+        role="group"
+        aria-label="Result type"
+      >
+        <button
+          type="button"
+          className={`nav-link ${mode === "issues" ? "tab-active" : ""}`}
+          aria-pressed={mode === "issues"}
+          onClick={() => switchMode("issues")}
+        >
+          Issues
+        </button>
+        <button
+          type="button"
+          className={`nav-link ${mode === "repos" ? "tab-active" : ""}`}
+          aria-pressed={mode === "repos"}
+          onClick={() => switchMode("repos")}
+        >
+          Repositories
+        </button>
       </div>
 
       <FilterBar
@@ -109,7 +111,7 @@ export default function Browse() {
       />
 
       {error ? (
-        <div role="alert" className="card border-rose-300 bg-rose-50 text-sm text-rose-900">
+        <div role="alert" className="card bg-danger-subtle text-sm text-fg">
           <p className="font-semibold">
             {error.isRateLimited ? "GitHub's rate limit was hit." : "Something went wrong."}
           </p>
@@ -137,13 +139,21 @@ export default function Browse() {
         />
       ) : (
         <>
-          <p className="text-xs text-slate-500" aria-live="polite">
-            {mode === "issues"
-              ? `${groups.length} projects · ${totalCount.toLocaleString()} issues`
-              : `${totalCount.toLocaleString()} results`}
+          <p className="text-xs text-fg-muted" aria-live="polite">
+            {mode === "issues" ? (
+              <>
+                {groups.length} projects on this page ·{" "}
+                <span className="counter">{totalCount.toLocaleString()}</span> matching issues
+              </>
+            ) : (
+              <>
+                <span className="counter">{totalCount.toLocaleString()}</span> matching
+                repositories
+              </>
+            )}
             {active.data?.cached ? " · served from cache" : ""}
           </p>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {mode === "issues"
               ? groups.map((group) => (
                   <ProjectGroupCard key={group.fullName} group={group} label={filters.label} />

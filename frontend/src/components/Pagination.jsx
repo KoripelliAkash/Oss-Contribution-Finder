@@ -32,7 +32,7 @@ export default function Pagination({ page, totalPages, onChange, disabled = fals
           <button
             key={number}
             type="button"
-            className={`btn ${number === page ? "border-brand-500 bg-brand-50 font-semibold text-brand-700" : ""}`}
+            className={`btn ${number === page ? "border-brand-500 bg-brand-50 font-semibold text-accent" : ""}`}
             aria-current={number === page ? "page" : undefined}
             disabled={disabled}
             onClick={() => onChange(number)}
@@ -43,7 +43,7 @@ export default function Pagination({ page, totalPages, onChange, disabled = fals
       </div>
 
       <div className="flex items-center gap-3">
-        <span className="text-xs text-slate-500" aria-live="polite">
+        <span className="text-xs text-fg-muted" aria-live="polite">
           Page {page} of {totalPages} (GitHub caps search at 1,000 results)
           {isFetching ? " · updating…" : ""}
         </span>

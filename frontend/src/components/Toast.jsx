@@ -1,18 +1,19 @@
 /* eslint-disable react-refresh/only-export-components -- the toast context and
-   its hook live next to the provider on purpose (PLAN.md §3 lists Toast.jsx). */
+   its hook live next to the provider on purpose. */
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const ToastContext = createContext(null);
 
+/* GitHub flash messages: neutral border, tinted background. */
 const VARIANTS = {
-  info: "border-slate-300 bg-white text-slate-800",
-  success: "border-emerald-300 bg-emerald-50 text-emerald-900",
-  error: "border-rose-300 bg-rose-50 text-rose-900",
+  info: "border-border bg-canvas-subtle text-fg",
+  success: "border-success-emphasis bg-success-subtle text-fg",
+  error: "border-danger-emphasis bg-danger-subtle text-fg",
 };
 
 let nextId = 1;
 
-/** Import/merge feedback for the save feature (PLAN.md §11). */
+/** Import/merge feedback for the save feature. */
 export function ToastProvider({ children, timeout = 6000 }) {
   const [toasts, setToasts] = useState([]);
   const timers = useRef(new Map());

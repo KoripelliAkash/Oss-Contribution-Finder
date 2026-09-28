@@ -1,5 +1,5 @@
 /**
- * Saved-items storage: localStorage plus JSON/URL import-export (PLAN.md §11).
+ * Saved-items storage: localStorage plus JSON/URL import-export.
  *
  * Saved data never leaves the browser: the backend has no idea it exists.
  * Items are the *minimal* typed shape from the plan — never a full GitHub
@@ -207,7 +207,7 @@ export function sortBySavedAt(items) {
 }
 
 /**
- * Merge incoming items into the local list (PLAN.md §11 merge rules):
+ * Merge incoming items into the local list:
  * dedupe by `(type, id)`, keep the newer `saved_at`, count new/updated/skipped.
  */
 export function mergeSaves(localItems, incomingItems) {

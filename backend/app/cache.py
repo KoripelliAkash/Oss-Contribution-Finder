@@ -1,4 +1,4 @@
-"""Process-local TTL cache (PLAN.md §8).
+"""Process-local TTL cache.
 
 Key   = endpoint + the full canonical query string.
 Value = the raw GitHub payload (never a Pydantic model) so mapping stays cheap.
@@ -28,7 +28,9 @@ _stats: dict[str, int] = {"hits": 0, "misses": 0}
 
 def make_key(endpoint: str, **params: Any) -> str:
     """Build a stable cache key from an endpoint and its query params."""
-    pairs = [f"{name}={params[name]}" for name in sorted(params) if params[name] is not None]
+    pairs = [
+        f"{name}={params[name]}" for name in sorted(params) if params[name] is not None
+    ]
     if not pairs:
         return endpoint
     return f"{endpoint}?{'&'.join(pairs)}"

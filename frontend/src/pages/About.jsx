@@ -4,9 +4,9 @@ import { API_BASE_URL } from "../api/client";
 /** About page: what this is, where the data comes from, and the privacy story. */
 export default function About() {
   return (
-    <section className="flex max-w-3xl flex-col gap-5 text-sm text-slate-700">
+    <section className="flex max-w-3xl flex-col gap-5 text-sm text-fg-muted">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">About this project</h1>
+        <h1 className="text-3xl text-fg">About this project</h1>
         <p className="mt-2">
           The Open Source Contribution Finder helps you find open source work you can actually pick up
           today: open issues labelled <code>good first issue</code> or <code>help wanted</code>, plus
@@ -15,7 +15,7 @@ export default function About() {
       </div>
 
       <div className="card">
-        <h2 className="text-sm font-semibold text-slate-800">Where the data comes from</h2>
+        <h2 className="text-sm font-semibold text-fg">Where the data comes from</h2>
         <p className="mt-1">
           Everything is read from the GitHub REST and Search APIs through this app’s backend, which
           holds the GitHub token so your browser never sees it. Responses are cached in memory for
@@ -28,7 +28,7 @@ export default function About() {
       </div>
 
       <div className="card">
-        <h2 className="text-sm font-semibold text-slate-800">How saved items work</h2>
+        <h2 className="text-sm font-semibold text-fg">How saved items work</h2>
         <ul className="mt-2 list-disc space-y-1 pl-5">
           <li>
             Saved items live in your browser’s local storage — there is no account and no database.
@@ -47,7 +47,7 @@ export default function About() {
       </div>
 
       <div className="card">
-        <h2 className="text-sm font-semibold text-slate-800">This deployment</h2>
+        <h2 className="text-sm font-semibold text-fg">This deployment</h2>
         <p className="mt-1">
           API base URL: <code>{API_BASE_URL}</code>
         </p>
@@ -57,7 +57,7 @@ export default function About() {
       </div>
 
       <p>
-        <Link to="/" className="font-medium text-brand-600 hover:text-brand-700">
+        <Link to="/" className="font-medium text-accent hover:text-accent">
           ← Back to browsing
         </Link>
       </p>

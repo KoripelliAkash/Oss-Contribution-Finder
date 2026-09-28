@@ -1,4 +1,4 @@
-"""``GET /api/issues`` — search open issues labelled for contributors (PLAN.md §6).
+"""``GET /api/issues`` — search open issues labelled for contributors.
 
 NOTE: no ``from __future__ import annotations`` here — the slowapi decorator
 wraps the endpoint, and FastAPI resolves string annotations against the
@@ -34,11 +34,15 @@ MAX_SORTABLE = {"updated", "created", "comments"}
 async def search_issues(
     request: Request,
     label: str = Query(DEFAULT_LABEL, min_length=1, max_length=64),
-    language: str | None = Query(None, max_length=64, description="e.g. `python`, `typescript`"),
+    language: str | None = Query(
+        None, max_length=64, description="e.g. `python`, `typescript`"
+    ),
     repo: str | None = Query(None, max_length=100, description="e.g. `owner/repo`"),
     sort: SortOption = Query("updated"),
     order: OrderOption = Query("desc"),
-    page: int = Query(1, ge=1, le=10, description="GitHub caps search at 1,000 results"),
+    page: int = Query(
+        1, ge=1, le=10, description="GitHub caps search at 1,000 results"
+    ),
     per_page: int = Query(30, ge=1, le=100),
 ) -> IssueSearchResponse:
     """Build the query server-side, then read through the TTL cache.
@@ -47,7 +51,13 @@ async def search_issues(
     about issues you can pick up, not PRs already in flight.
     """
     query = build_issue_query(label, language, repo=repo)
-    logger.info("issues search label=%s language=%s repo=%s query=%s", label, language, repo, query)
+    logger.info(
+        "issues search label=%s language=%s repo=%s query=%s",
+        label,
+        language,
+        repo,
+        query,
+    )
 
     fetched = await github.search_issues(
         query=query,

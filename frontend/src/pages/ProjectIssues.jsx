@@ -54,16 +54,13 @@ export default function ProjectIssues() {
     <section className="flex flex-col gap-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs text-slate-500">
-            <Link to="/" className="hover:text-brand-600">
-              Browse
-            </Link>{" "}
-            / issues
+          <p className="text-xs text-fg-muted">
+            <Link to="/">Browse</Link> / issues
           </p>
-          <h1 className="text-2xl font-bold text-slate-900">{fullName}</h1>
-          <p className="mt-1 text-sm text-slate-600">
-            {totalCount.toLocaleString()} open {totalCount === 1 ? "issue" : "issues"} labelled{" "}
-            <span className="chip">{label}</span>
+          <h1 className="text-3xl leading-tight">{fullName}</h1>
+          <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-fg-muted">
+            <span className="counter">{totalCount.toLocaleString()}</span> open{" "}
+            {totalCount === 1 ? "issue" : "issues"} labelled <span className="chip">{label}</span>
           </p>
         </div>
 
@@ -96,7 +93,7 @@ export default function ProjectIssues() {
         />
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {items.map((issue) => (
               <IssueCard key={`issue-${issue.id}`} issue={issue} />
             ))}
@@ -110,7 +107,7 @@ export default function ProjectIssues() {
         </>
       )}
 
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-fg-muted">
         {query.data?.cached ? "Served from the backend cache." : "Fetched from GitHub just now."}
       </p>
     </section>

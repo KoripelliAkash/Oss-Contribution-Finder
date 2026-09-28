@@ -2,47 +2,302 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------------------------------------------------------------------------
+   Base — GitHub Primer DARK theme (github.com's own design system)
+   --------------------------------------------------------------------------- */
 @layer base {
-  html,
-  body,
+  :root {
+    /* Makes native selects, scrollbars and form controls render dark too. */
+    color-scheme: dark;
+  }
+
+  html {
+    /* Keep `rem` at the browser default so Tailwind spacing stays predictable. */
+    font-size: 16px;
+  }
+
+  body {
+    background-color: #0d1117; /* color-canvas-default */
+    color: #e6edf3; /* color-fg-default */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+      Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 14px; /* Primer body text */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   #root {
     min-height: 100%;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    color: #e6edf3;
+  }
+
   a {
-    @apply underline-offset-2;
+    color: #58a6ff; /* color-accent-fg (dark) */
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a.btn:hover,
+  a.no-underline:hover,
+  .nav-link:hover {
+    text-decoration: none;
+  }
+
+  code,
+  pre,
+  kbd {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+      "Liberation Mono", monospace;
+    font-size: 85%;
+  }
+
+  code,
+  kbd {
+    background-color: rgba(110, 118, 129, 0.4);
+    border-radius: 6px;
+    padding: 0.2em 0.4em;
+  }
+
+  ::selection {
+    background: rgba(56, 139, 253, 0.45);
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-slate-50;
+    outline: 2px solid #1f6feb;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #30363d;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #0d1117;
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Components — mapped to Primer .Box / .Button / .form-control / .Label (dark)
+   --------------------------------------------------------------------------- */
 @layer components {
+  /* Primer Box: canvas-subtle surface, 1px border, 6px radius */
   .card {
-    @apply rounded-xl border border-slate-200 bg-white p-4 shadow-sm;
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 1px 0 rgba(1, 4, 9, 0.3);
   }
 
+  /* Primer Button (medium / default) */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2
-      text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed
-      disabled:opacity-50;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 5px 16px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: #e6edf3;
+    background-color: #21262d;
+    border: 1px solid rgba(240, 246, 252, 0.1);
+    border-radius: 6px;
+    box-shadow: 0 0 transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
   }
 
+  .btn:hover:not(:disabled) {
+    background-color: #30363d;
+    text-decoration: none;
+  }
+
+  .btn:active:not(:disabled) {
+    background-color: rgba(65, 72, 80, 0.2);
+  }
+
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Primer Button (primary, green) */
   .btn-primary {
-    @apply border-transparent bg-brand-500 text-white hover:bg-brand-600;
+    color: #ffffff;
+    background-color: #238636;
+    border-color: rgba(240, 246, 252, 0.1);
+    box-shadow: 0 0 transparent;
   }
 
+  .btn-primary:hover:not(:disabled) {
+    background-color: #2ea043;
+  }
+
+  .btn-primary:active:not(:disabled) {
+    background-color: rgba(46, 160, 67, 0.4);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .btn-danger {
+    color: #ffffff;
+    background-color: #da3633;
+    border-color: rgba(240, 246, 252, 0.1);
+    box-shadow: 0 0 transparent;
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background-color: #b62324;
+  }
+
+  /* Primer form control (inputs + selects) */
   .input {
-    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900
-      placeholder:text-slate-400 sm:w-auto;
+    display: inline-block;
+    width: 100%;
+    padding: 5px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #e6edf3;
+    background-color: #0d1117;
+    border: 1px solid rgba(240, 246, 252, 0.1);
+    border-radius: 6px;
+    box-shadow: inset 0 1px 0 rgba(1, 4, 9, 0.15);
+    transition: box-shadow 0.15s ease;
   }
 
+  .input::placeholder {
+    color: #6e7681;
+  }
+
+  .input:focus {
+    border-color: #1f6feb;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(56, 139, 253, 0.45);
+  }
+
+  @media (min-width: 640px) {
+    .input {
+      width: auto;
+      min-width: 13rem;
+    }
+  }
+
+  /* Primer .Label — pill-shaped issue labels */
   .chip {
-    @apply inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700;
+    display: inline-block;
+    padding: 0 7px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    white-space: nowrap;
+    color: #e6edf3;
+    background-color: rgba(110, 118, 129, 0.4);
+    border: 1px solid transparent;
+    border-radius: 2em;
+  }
+
+  /* Primer .Counter — the little grey pills next to counts */
+  .counter {
+    display: inline-block;
+    min-width: 20px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: center;
+    vertical-align: middle;
+    color: #e6edf3;
+    background-color: rgba(110, 118, 129, 0.4);
+    border: 1px solid transparent;
+    border-radius: 2em;
+  }
+
+  /* Primer .State — solid status pill (Open / Closed / repo health) */
+  .state-pill {
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #ffffff;
+    background-color: #6e7681;
+    border: 1px solid transparent;
+    border-radius: 2em;
+    white-space: nowrap;
+  }
+
+  /* Primer .UnderlineNav item — coral indicator when active */
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #7d8590;
+    text-decoration: none;
+  }
+
+  .nav-link:hover {
+    color: #e6edf3;
+    text-decoration: none;
+  }
+
+  .nav-link[aria-current="page"],
+  .tab-active {
+    color: #e6edf3;
+    font-weight: 600;
+  }
+
+  /* Primer UnderlineNav indicator */
+  .nav-link[aria-current="page"]::after,
+  .tab-active::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background-color: #f78166;
+    border-radius: 2px 2px 0 0;
   }
 
   .skeleton {
-    @apply animate-pulse rounded bg-slate-200;
+    background-color: #21262d;
+    border-radius: 6px;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeleton-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
   }
 }

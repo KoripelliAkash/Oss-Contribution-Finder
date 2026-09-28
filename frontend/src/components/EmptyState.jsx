@@ -1,4 +1,4 @@
-/** Shown when a filter combination returns nothing (PLAN.md §9). */
+/** Shown when a filter combination returns nothing. */
 export default function EmptyState({
   title = "No results",
   message = "Try a different language, label or sort order.",
@@ -9,8 +9,8 @@ export default function EmptyState({
       <span aria-hidden="true" className="text-2xl">
         🔍
       </span>
-      <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
-      <p className="max-w-md text-sm text-slate-600">{message}</p>
+      <h2 className="text-lg font-semibold text-fg">{title}</h2>
+      <p className="max-w-md text-sm text-fg-muted">{message}</p>
       {action}
     </div>
   );

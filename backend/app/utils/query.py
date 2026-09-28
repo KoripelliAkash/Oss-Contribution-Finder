@@ -1,4 +1,4 @@
-"""Server-side GitHub search query building (PLAN.md §7).
+"""Server-side GitHub search query building.
 
 The frontend never builds a GitHub query string — it only sends filter values,
 which are sanitised and turned into qualifiers here.
@@ -51,7 +51,9 @@ def _date_token(value: dt.date | dt.datetime | str) -> str:
     try:
         return dt.date.fromisoformat(str(value).strip()).isoformat()
     except ValueError as exc:
-        raise QueryBuildError("'pushed_after' must be a date such as 2024-01-01.") from exc
+        raise QueryBuildError(
+            "'pushed_after' must be a date such as 2024-01-01."
+        ) from exc
 
 
 def build_issue_query(
@@ -63,13 +65,11 @@ def build_issue_query(
     clean_label = sanitize(label) or DEFAULT_LABEL
     parts = ["is:issue", "state:open"]
     if repo and sanitize(repo):
-        parts.append(f'repo:{sanitize(repo)}')
+        parts.append(f"repo:{sanitize(repo)}")
     parts.append(f'label:"{clean_label}"')
     if language and sanitize(language):
         parts.append(_token("language", language))
     return " ".join(parts)
-
-
 
 
 def build_repo_query(

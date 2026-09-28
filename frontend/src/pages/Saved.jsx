@@ -100,8 +100,8 @@ export default function Saved() {
   return (
     <section className="flex flex-col gap-5">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Saved items</h1>
-        <p className="text-sm text-slate-600">
+        <h1 className="text-3xl text-fg">Saved items</h1>
+        <p className="text-sm text-fg-muted">
           Your saves are stored only on this device (browser local storage) and are never sent to our
           backend. Export them if you want a backup.
         </p>
@@ -110,7 +110,7 @@ export default function Saved() {
       {notice ? (
         <div
           role="status"
-          className="card flex items-start justify-between gap-3 border-amber-300 bg-amber-50 text-sm text-amber-900"
+          className="card flex items-start justify-between gap-3 bg-attention-subtle text-sm text-fg"
         >
           <span>{notice}</span>
           <button
@@ -165,20 +165,20 @@ export default function Saved() {
           Clear all
         </button>
 
-        <span className="text-xs text-slate-500">
+        <span className="text-xs text-fg-muted">
           {count} saved item{count === 1 ? "" : "s"}
         </span>
       </div>
 
       {shareTooLong ? (
-        <p role="status" className="text-xs text-amber-700">
+        <p role="status" className="text-xs text-attention">
           Too many items to share via link (limit ≈ {URL_LENGTH_LIMIT} characters) — use Export to
           JSON instead.
         </p>
       ) : null}
 
       {!storageOk ? (
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-fg-muted">
           Local storage is unavailable, so this list only lives in this tab.
         </p>
       ) : null}
@@ -201,17 +201,17 @@ export default function Saved() {
               className="card flex flex-wrap items-start justify-between gap-3"
             >
               <div className="min-w-0">
-                <h2 className="text-sm font-semibold text-slate-800">
+                <h2 className="text-sm font-semibold text-fg">
                   <a
                     href={item.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-brand-600"
+                    className="hover:text-accent"
                   >
                     {item.title || item.repo_full_name || item.html_url}
                   </a>
                 </h2>
-                <p className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                <p className="mt-1 flex flex-wrap items-center gap-2 text-xs text-fg-muted">
                   <span className="chip">{TYPE_LABEL[item.type] ?? item.type}</span>
                   {item.repo_full_name ? <span>{item.repo_full_name}</span> : null}
                   {item.language ? <span className="chip">{item.language}</span> : null}

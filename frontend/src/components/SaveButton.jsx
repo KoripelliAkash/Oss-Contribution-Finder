@@ -1,7 +1,7 @@
 import { useSaved } from "../hooks/useSaved";
 
 /**
- * Star toggle shown on every issue and repo card (PLAN.md §11).
+ * Star toggle shown on every issue and repo card.
  * `type` keeps issues and repos apart even when their numeric ids collide.
  */
 export default function SaveButton({ item, type = "issue", className = "" }) {
@@ -29,10 +29,15 @@ export default function SaveButton({ item, type = "issue", className = "" }) {
       aria-pressed={isItemSaved}
       aria-label={label}
       title={label}
-      className={`btn shrink-0 ${isItemSaved ? "border-amber-300 bg-amber-50 text-amber-800" : ""} ${className}`}
+      className={`btn shrink-0 ${className}`}
     >
-      <span aria-hidden="true">{isItemSaved ? "★" : "☆"}</span>
-      <span>{isItemSaved ? "Saved" : "Save"}</span>
+      <span
+        aria-hidden="true"
+        className={isItemSaved ? "text-[#e3b341]" : "text-fg-muted"}
+      >
+        {isItemSaved ? "★" : "☆"}
+      </span>
+      <span>{isItemSaved ? "Starred" : "Star"}</span>
     </button>
   );
 }

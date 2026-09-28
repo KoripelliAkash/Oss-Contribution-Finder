@@ -1,7 +1,4 @@
-"""Open Source Contribution Finder — FastAPI backend.
-
-See ``PLAN.md`` at the repository root for the full specification.
-"""
+"""Open Source Contribution Finder — FastAPI backend."""
 
 __all__ = ["__version__"]
 

@@ -1,8 +1,8 @@
-/** Skeletons, not spinners, while the browse page loads (PLAN.md §9). */
+/** Skeletons, not spinners, while the browse page loads. */
 export default function LoadingSkeleton({ count = 6 }) {
   return (
     <div
-      className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3"
+      className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
       role="status"
       aria-busy="true"
       aria-live="polite"
