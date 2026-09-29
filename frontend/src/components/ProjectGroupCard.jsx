@@ -9,24 +9,32 @@ export default function ProjectGroupCard({ group, label = "good first issue" }) 
   const [owner = "", name = ""] = String(fullName).split("/");
   const issuesPath = `/project/${owner}/${name}/issues?label=${encodeURIComponent(label)}`;
 
+  const visible = issues.slice(0, 3);
+  const hiddenCount = issues.length - visible.length;
+
   return (
-    <article className="card flex h-full flex-col gap-3">
-      <header className="flex flex-wrap items-start justify-between gap-2">
+    <article className="card flex h-full flex-col gap-4 p-5">
+      {/* Header */}
+      <header className="flex items-start justify-between gap-2">
         <h3 className="min-w-0 break-all text-base font-semibold leading-snug">
-          <a href={repoUrl} target="_blank" rel="noopener noreferrer">
+          <a
+            href={repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent hover:underline"
+          >
             {fullName}
           </a>
         </h3>
-        <span className="counter shrink-0">
-          {issues.length} on this page
-        </span>
+        <span className="counter shrink-0">{issues.length}</span>
       </header>
 
+      {/* Issue list */}
       <ul
-        className="flex flex-col gap-1.5 text-sm text-fg-muted"
+        className="flex flex-col gap-2.5 text-sm"
         aria-label={`Open issues in ${fullName}`}
       >
-        {issues.slice(0, 3).map((issue) => (
+        {visible.map((issue) => (
           <li key={issue.id} className="flex items-start gap-2">
             <svg
               viewBox="0 0 16 16"
@@ -35,25 +43,33 @@ export default function ProjectGroupCard({ group, label = "good first issue" }) 
               aria-hidden="true"
               className="mt-0.5 shrink-0 fill-success-fg"
             >
-              <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
-              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>
+              <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z" />
             </svg>
             <a
               href={issue.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="line-clamp-1 text-fg hover:text-accent"
+              className="line-clamp-2 text-fg hover:text-accent hover:underline"
             >
               {issue.title}
             </a>
           </li>
         ))}
-        {issues.length > 3 ? (
-          <li aria-hidden="true">…and {issues.length - 3} more on this page</li>
+        {hiddenCount > 0 ? (
+          <li className="text-xs text-fg-muted">+{hiddenCount} more on this page</li>
         ) : null}
       </ul>
 
-      <footer className="mt-auto flex flex-wrap gap-2">
+      {/* Footer */}
+      <footer className="mt-auto flex flex-wrap gap-2 border-t border-border pt-3">
+        <Link
+          to={issuesPath}
+          className="btn btn-primary flex-1"
+          aria-label={`View all issues in ${fullName}`}
+        >
+          View issues <span aria-hidden="true">→</span>
+        </Link>
         <a
           href={repoUrl}
           target="_blank"
@@ -61,15 +77,8 @@ export default function ProjectGroupCard({ group, label = "good first issue" }) 
           className="btn"
           aria-label={`View ${fullName} on GitHub`}
         >
-          View project <span aria-hidden="true">↗</span>
+          GitHub <span aria-hidden="true">↗</span>
         </a>
-        <Link
-          to={issuesPath}
-          className="btn btn-primary"
-          aria-label={`View all issues in ${fullName}`}
-        >
-          View issues <span aria-hidden="true">→</span>
-        </Link>
       </footer>
     </article>
   );

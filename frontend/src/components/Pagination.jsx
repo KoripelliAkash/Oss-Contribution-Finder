@@ -17,7 +17,7 @@ export default function Pagination({ page, totalPages, onChange, disabled = fals
   const pages = pageWindow(page, totalPages);
 
   return (
-    <nav className="flex flex-wrap items-center justify-between gap-3" aria-label="Pagination">
+    <nav className="flex flex-wrap items-right justify-end gap-3 mt-5" aria-label="Pagination">
       <button
         type="button"
         className="btn"
@@ -44,7 +44,7 @@ export default function Pagination({ page, totalPages, onChange, disabled = fals
 
       <div className="flex items-center gap-3">
         <span className="text-xs text-fg-muted" aria-live="polite">
-          Page {page} of {totalPages} (GitHub caps search at 1,000 results)
+          Page {page} of {totalPages}
           {isFetching ? " · updating…" : ""}
         </span>
         <button

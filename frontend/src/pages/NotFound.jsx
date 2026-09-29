@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 export default function NotFound() {
   return (
     <section className="flex flex-col items-center gap-3 py-16 text-center">
-      <span aria-hidden="true" className="text-4xl">
+      <span aria-hidden="true" className="text-4xl leading-none">
         🧭
       </span>
-      <h1 className="text-3xl leading-tight">404 — page not found</h1>
+      <h1 className="text-2xl font-semibold leading-tight">404 — page not found</h1>
       <p className="max-w-md text-sm text-fg-muted">
         That page does not exist. It may have been renamed, or the link may be broken.
       </p>
-      <Link to="/" className="btn btn-primary">
+      <Link to="/" className="btn btn-primary mt-2">
         Go to the browse page
       </Link>
     </section>

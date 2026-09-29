@@ -52,15 +52,24 @@ export default function ProjectIssues() {
 
   return (
     <section className="flex flex-col gap-5">
+      {/* Header: breadcrumb + title + counts + actions */}
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0">
           <p className="text-xs text-fg-muted">
-            <Link to="/">Browse</Link> / issues
+            <Link to="/" className="text-accent hover:underline">
+              Browse
+            </Link>{" "}
+            / issues
           </p>
-          <h1 className="text-3xl leading-tight">{fullName}</h1>
+          <h1 className="mt-0.5 text-2xl font-semibold leading-tight break-words">
+            {fullName}
+          </h1>
           <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-fg-muted">
-            <span className="counter">{totalCount.toLocaleString()}</span> open{" "}
-            {totalCount === 1 ? "issue" : "issues"} labelled <span className="chip">{label}</span>
+            <span className="counter">{totalCount.toLocaleString()}</span>
+            <span>
+              open {totalCount === 1 ? "issue" : "issues"} labelled
+            </span>
+            <span className="chip">{label}</span>
           </p>
         </div>
 
@@ -93,7 +102,7 @@ export default function ProjectIssues() {
         />
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          <div className="grid w-full grid-cols-1 items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {items.map((issue) => (
               <IssueCard key={`issue-${issue.id}`} issue={issue} />
             ))}

@@ -29,15 +29,14 @@ export default function SaveButton({ item, type = "issue", className = "" }) {
       aria-pressed={isItemSaved}
       aria-label={label}
       title={label}
-      className={`btn shrink-0 ${className}`}
+      className={`ml-2 shrink-0 border-0 bg-transparent p-0 ${className}`}
     >
       <span
         aria-hidden="true"
-        className={isItemSaved ? "text-[#e3b341]" : "text-fg-muted"}
+        className={`text-2xl ${isItemSaved ? "text-[#e3b341]" : "text-fg-muted"}`}
       >
         {isItemSaved ? "★" : "☆"}
       </span>
-      <span>{isItemSaved ? "Starred" : "Star"}</span>
     </button>
   );
 }

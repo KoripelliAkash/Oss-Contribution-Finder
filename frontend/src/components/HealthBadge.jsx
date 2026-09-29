@@ -13,16 +13,16 @@ export default function HealthBadge({ health }) {
   const reasons = Array.isArray(health.reasons) ? health.reasons.join(" ") : "";
   const score = Number.isFinite(health.score) ? health.score : null;
 
+  // Title text: status + score + reasons, so hovering shows everything.
+  const titleParts = [health.status];
+  if (score !== null) titleParts.push(`score ${score}`);
+  if (reasons) titleParts.push(reasons);
+  const title = titleParts.join(" — ");
+
   return (
-    <span
-      className={`state-pill ${style}`}
-      title={reasons || undefined}
-    >
-      <span>
-        {health.status}
-        {score !== null ? ` · ${score}` : ""}
-      </span>
-      <span className="sr-only">{reasons}</span>
+    <span className={`state-pill ${style}`} title={title}>
+      {health.status}
+      {score !== null ? ` · ${score}` : ""}
     </span>
   );
 }
