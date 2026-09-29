@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import EmptyState from "../components/EmptyState";
 import FilterBar from "../components/FilterBar";
 import LoadingSkeleton from "../components/LoadingSkeleton";
@@ -43,7 +43,7 @@ function groupByRepo(items) {
 export default function Browse() {
   const [mode, setMode] = useState("issues");
   const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [filters, setFilters] = useState(() => ({ ...DEFAULT_FILTERS }));
 
   const languagesQuery = useLanguages();
   const issuesQuery = useIssues(filters, page, { enabled: mode === "issues" });
@@ -54,13 +54,20 @@ export default function Browse() {
   const totalCount = active.data?.total_count ?? 0;
   const totalPages = Math.min(MAX_PAGES, Math.max(1, Math.ceil(totalCount / PER_PAGE)));
   const error = active.error;
-  const groups = mode === "issues" ? groupByRepo(items) : [];
+
+  const groups = useMemo(
+    () => (mode === "issues" ? groupByRepo(items) : []),
+    [mode, items]
+  );
 
   function switchMode(nextMode) {
     if (nextMode === mode) return;
     setMode(nextMode);
     setPage(1);
-    setFilters({ ...DEFAULT_FILTERS, sort: nextMode === "repos" ? "stars" : "updated" });
+    setFilters((prev) => ({
+      ...prev,
+      sort: nextMode === "repos" ? "stars" : "updated",
+    }));
   }
 
   function handleFiltersChange(nextFilters) {
@@ -69,9 +76,11 @@ export default function Browse() {
   }
 
   return (
-    <section className="flex flex-col gap-5">
+    <section className="flex w-full flex-col gap-5">
       <div>
-        <h1 className="text-3xl leading-tight">Find something to contribute to</h1>
+        <h1 className="text-2xl font-semibold leading-tight">
+          Find something to contribute to
+        </h1>
         <p className="mt-1 text-sm text-fg-muted">
           {mode === "issues"
             ? "Open issues grouped by project — open a project to see all of its issues in one place."
@@ -79,15 +88,11 @@ export default function Browse() {
         </p>
       </div>
 
-      <div
-        className="-mt-3 flex items-end gap-1 border-b border-border"
-        role="group"
-        aria-label="Result type"
-      >
+      <div className="underline-nav -mt-3" role="group" aria-label="Result type">
         <button
           type="button"
           className={`nav-link ${mode === "issues" ? "tab-active" : ""}`}
-          aria-pressed={mode === "issues"}
+          aria-current={mode === "issues" ? "page" : undefined}
           onClick={() => switchMode("issues")}
         >
           Issues
@@ -95,7 +100,7 @@ export default function Browse() {
         <button
           type="button"
           className={`nav-link ${mode === "repos" ? "tab-active" : ""}`}
-          aria-pressed={mode === "repos"}
+          aria-current={mode === "repos" ? "page" : undefined}
           onClick={() => switchMode("repos")}
         >
           Repositories
@@ -118,7 +123,7 @@ export default function Browse() {
           <p className="mt-1">
             {error.isRateLimited
               ? "Wait about a minute and try again — results are cached, so your place is kept."
-              : error.message}
+              : error.message || "Please try again in a moment."}
           </p>
           <button type="button" className="btn mt-3" onClick={() => active.refetch()}>
             Try again
@@ -147,13 +152,12 @@ export default function Browse() {
               </>
             ) : (
               <>
-                <span className="counter">{totalCount.toLocaleString()}</span> matching
-                repositories
+                <span className="counter">{totalCount.toLocaleString()}</span>{" "}
+                matching repositories
               </>
             )}
-            {active.data?.cached ? " · served from cache" : ""}
           </p>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          <div className="grid w-full grid-cols-1 items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {mode === "issues"
               ? groups.map((group) => (
                   <ProjectGroupCard key={group.fullName} group={group} label={filters.label} />

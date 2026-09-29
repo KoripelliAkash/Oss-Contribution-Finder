@@ -3,7 +3,7 @@ import { formatNumber, formatRelative } from "../lib/format";
 
 /**
  * GitHub's own label colours for the most common labels. Anything else falls
- * back to Primer's accent-subtle label, matching how unlisted labels render.
+ * back to Primer's neutral dark label pill, matching how unlisted labels render.
  */
 const LABEL_COLORS = {
   bug: { bg: "#d73a4a", fg: "#ffffff" },
@@ -40,12 +40,12 @@ export default function IssueCard({ issue }) {
   return (
     <article className="card flex h-full flex-col gap-3">
       <header className="flex flex-wrap items-start justify-between gap-3">
-        <h3 className="text-base font-semibold leading-snug">
+        <h3 className="min-w-0 flex-1 text-base font-semibold leading-snug">
           <a
             href={issue.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-fg hover:text-accent"
+            className="text-fg hover:text-accent hover:underline line-clamp-2"
           >
             {issue.title}
           </a>
@@ -54,21 +54,29 @@ export default function IssueCard({ issue }) {
       </header>
 
       <p className="flex flex-wrap items-center gap-2 text-sm text-fg-muted">
-        <a
-          href={issue.repo_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-medium"
-        >
-          {issue.repo_full_name}
-        </a>
+        {issue.repo_url && issue.repo_full_name ? (
+          <a
+            href={issue.repo_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-accent hover:underline"
+          >
+            {issue.repo_full_name}
+          </a>
+        ) : (
+          <span className="font-medium">{issue.repo_full_name}</span>
+        )}
         {issue.language ? <span className="chip">{issue.language}</span> : null}
       </p>
 
       {labels.length > 0 ? (
         <ul className="flex flex-wrap gap-1" aria-label="Issue labels">
           {labels.map((label) => (
-            <li key={label} className="chip" style={labelStyle(label)}>
+            <li
+              key={label}
+              className="chip"
+              style={labelStyle(label)}
+            >
               {label}
             </li>
           ))}

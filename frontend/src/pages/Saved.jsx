@@ -98,12 +98,11 @@ export default function Saved() {
   }
 
   return (
-    <section className="flex flex-col gap-5">
+    <section className="flex w-full flex-col gap-5">
       <div>
-        <h1 className="text-3xl text-fg">Saved items</h1>
-        <p className="text-sm text-fg-muted">
-          Your saves are stored only on this device (browser local storage) and are never sent to our
-          backend. Export them if you want a backup.
+        <h1 className="text-2xl font-semibold leading-tight text-fg">Saved items</h1>
+        <p className="mt-1 text-sm text-fg-muted">
+          Your saves are stored only on this device. Export them if you want a backup.
         </p>
       </div>
 
@@ -115,7 +114,7 @@ export default function Saved() {
           <span>{notice}</span>
           <button
             type="button"
-            className="btn"
+            className="btn shrink-0"
             onClick={dismissNotice}
             aria-label="Dismiss storage notice"
           >
@@ -194,19 +193,19 @@ export default function Saved() {
           }
         />
       ) : (
-        <ul className="flex flex-col gap-3">
+        <ul className="flex w-full flex-col gap-3">
           {saved.map((item) => (
             <li
               key={`${item.type}-${item.id}`}
               className="card flex flex-wrap items-start justify-between gap-3"
             >
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <h2 className="text-sm font-semibold text-fg">
                   <a
                     href={item.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-accent"
+                    className="text-fg hover:text-accent hover:underline break-words"
                   >
                     {item.title || item.repo_full_name || item.html_url}
                   </a>
@@ -229,7 +228,7 @@ export default function Saved() {
               </div>
               <button
                 type="button"
-                className="btn"
+                className="btn shrink-0"
                 onClick={() => remove(item.type, item.id)}
                 aria-label={`Remove ${item.title || item.repo_full_name} from saved`}
               >
